@@ -1,2 +1,5 @@
 # aws-vpc-vpn-poc
-Automated AWS CloudFormation deployment of a secure VPC network (with public and private subnets, Internet Gateway, and routing) directly from GitHub using AWS CloudShell.
+🚀 AWS VPC + Bastion Host CloudFormation POC
+
+Description:
+This project demonstrates an end-to-end AWS networking Proof-of-Concept (POC) using CloudFormation templates to automate the creation of a secure Virtual Private Cloud (VPC) environment. It includes network setup, secure access configuration, and infrastructure validation — all managed via version control on GitHub and deployed directly from AWS CloudShell.

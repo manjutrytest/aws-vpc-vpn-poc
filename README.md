@@ -1,2 +1,2 @@
 # aws-vpc-vpn-poc
-aws vpc and vpn configuration using cloudformation template
+Automated AWS CloudFormation deployment of a secure VPC network (with public and private subnets, Internet Gateway, and routing) directly from GitHub using AWS CloudShell.

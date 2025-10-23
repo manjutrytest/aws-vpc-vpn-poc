@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'POC - Bastion EC2 in existing Public Subnet (accepts VpcId)'
+
+Parameters:
+  VpcId:
+    Type: String
+    Description: Id of the VPC where the public subnet exists
+  PublicSubnetId:
+    Type: String
+    Description: Id of the public subnet (from VPC-VPN-POC outputs)
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: SSH keypair name to attach to the bastion
+  AllowedSshCidr:
+    Type: String
+    Description: CIDR allowed to SSH (e.g. 203.0.113.4/32)
+    Default: 0.0.0.0/0
+
+Resources:
+  BastionSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Bastion SSH SG"
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: !Ref AllowedSshCidr
+      Tags:
+        - Key: Name
+          Value: POC-Bastion-SG
+
+  BastionInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t3.micro
+      SubnetId: !Ref PublicSubnetId
+      KeyName: !Ref KeyName
+      ImageId: !Ref AmiId
+      SecurityGroupIds:
+        - !Ref BastionSG
+      Tags:
+        - Key: Name
+          Value: POC-Bastion
+
+Parameters:
+  AmiId:
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
